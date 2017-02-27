@@ -1,7 +1,7 @@
 #pragma once
 #include <limits.h>
 #include <iostream>
-#include "scoring_matrix.h"
+#include "scoring_matrix/scoring_matrix.h"
 
 class SequenceAlignment {
 	private:
