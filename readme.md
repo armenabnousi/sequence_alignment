@@ -1,5 +1,5 @@
 #DNA/protein sequence alignment</br>
-##Smith-Waterman local and Needleman-Wunsch global algorithms with affine gap penalty</br>
+##Smith-Waterman local and Needleman-Wunsch global alignment algorithms with affine gap penalty</br>
 </br>
 This library provides implementations for Smith-Waterman or Needleman-Wunsch algorihtms for local/global sequence alginment. The scoring matrix should be provided as a text file as described below.</br>
 </br>
