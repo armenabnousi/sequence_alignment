@@ -7,6 +7,7 @@ SequenceAlignment::SequenceAlignment(std::string matrix, int gap_o, int gap) :
 		seq2_start = 0;
 		seq1_end = 0;
 		seq2_end = 0;
+		exact_match_count = 0;
 		//align(seq1, seq2, type);
 }
 
@@ -53,13 +54,15 @@ void SequenceAlignment::align(std::string seq1, std::string seq2, std::string ty
 
 void SequenceAlignment::print_alignment() {}
 
-std::string SequenceAlignment::get_alignment(int* s1_start, int* s1_end, int* s2_start, int* s2_end, int* score, double* score_percent) {
+std::string SequenceAlignment::get_alignment(int* s1_start, int* s1_end, int* s2_start, int* s2_end, int* score, double* score_percent, 
+						int* identity_count) {
 	*s1_start = this -> seq1_start;
 	*s1_end = this -> seq1_end;
 	*s2_start = this -> seq2_start;
 	*s2_end = this -> seq2_end;
 	*score = this -> score;
 	*score_percent = this -> score_percent;
+	*identity_count = exact_match_count;
 	return alignment;
 }
 
@@ -120,7 +123,8 @@ void SequenceAlignment::fill_matrix(std::string seq1, std::string seq2, int** ma
 	}
 }
 
-void SequenceAlignment::backtrack_matrix(std::string seq1, std::string seq2, int** matrix, int** s1_gaps, int** s2_gaps, std::string type, int max_i, int max_j) {
+void SequenceAlignment::backtrack_matrix(std::string seq1, std::string seq2, int** matrix, int** s1_gaps, int** s2_gaps, 
+						std::string type, int max_i, int max_j) {
 	if (type == "local") {
 		seq1_end = max_i;
 		seq2_end = max_j;
@@ -128,6 +132,7 @@ void SequenceAlignment::backtrack_matrix(std::string seq1, std::string seq2, int
 	int i = max_i;
 	int j = max_j;
 	alignment = "";
+	exact_match_count = 0;
 	int step_score = get_max(s1_gaps[i][j], s2_gaps[i][j], matrix[i][j]);
 	while ( (type == "local" && step_score > 0) || (type == "global" && i != 0 && j != 0) ) {
 //		std::cout << "score: " << step_score << " at:" << i << ", " << j << std::endl;
@@ -149,8 +154,12 @@ void SequenceAlignment::backtrack_matrix(std::string seq1, std::string seq2, int
 			j--;
 		} else if (step_score == scores -> get_score(seq1[i-1], seq2[j-1]) + 
 					get_max(matrix[i-1][j-1], s1_gaps[i-1][j-1], s2_gaps[i-1][j-1])) {
-			if (seq1[i-1] == seq2[j-1]) alignment += '|';
-			else alignment += '-';
+			if (seq1[i-1] == seq2[j-1]) {
+				alignment += '|';
+				exact_match_count++;
+			} else {
+				alignment += '-';
+			}
 			int match_point = scores -> get_score(seq1[i-1], seq2[j-1]);
 			if (step_score == match_point + matrix[i-1][j-1]) step_score = matrix[i-1][j-1];
 			else if (step_score == match_point + s1_gaps[i-1][j-1]) step_score = s1_gaps[i-1][j-1];
