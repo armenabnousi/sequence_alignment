@@ -39,7 +39,8 @@ void SequenceAlignment::align(std::string seq1, std::string seq2, std::string ty
 
 	backtrack_matrix(seq1, seq2, matrix, s1_gap, s2_gap, type, max_i, max_j);
 //	std::cout << "score = " << score << " " << matrix[seq1_end][seq2_end] << " " << seq1[seq1_end - 1] << " " << seq2[seq2_end - 1] << " " << seq2_end - seq2_start + 1 << " " << seq1_end - seq1_start + 1 << std::endl;
-	int max_possible_score = seq1.length() > seq2.length() ? compute_max_score(seq1) : compute_max_score(seq2);
+	int max_possible_score = seq1.length() > seq2.length() ? compute_max_score(seq1.substr(seq1_start, seq1_end - seq1_start)) : 
+								compute_max_score(seq2.substr(seq2_start, seq2_end -seq2_start));
 	score_percent = (double) score / max_possible_score;
 //	std::cout << seq1_start << " " << seq1_end << " " << seq2_start << " " << seq2_end << std::endl;
 	for (int i = 0; i < nrow; i++) {
