@@ -18,7 +18,7 @@ std::string alignment = seq_align.get_alignment(&seq1_start, &seq1_end, &seq2_st
 The `get_alignment` function returns a std::string of the alignment where '|' represents exact match, '-' represents a mismatch, '1' represents a gap in sequence1 (first sequence passed to `align` function), and '2' represents a gap in sequence2 (second sequence passed to `align` function). The parameters of this function are all used as output arguments, that will return the alignment score, start and end positions of the alignment on the two sequences, and score percentage and identity count as explained below.</br>
 The `print_alignment` function only prints the sequence of matches, mimatches and gaps ('|', '-', '1', and '2' as explained above for `get_alignment` function.</br>
 **score percentage**</br>
-To compute the score percentage, first we computed the maximum possible alignment score by picking the sequence with shorter length and performing a global alignment by itself. Then the score percentage is computed by dividing the original alignment score by the maximum possible score.</br>
+To compute the score percentage, first we computed the maximum possible alignment score by picking the sequence with shorter length and performing a global alignment of the aligned section of that sequence by itself. Then the score percentage is computed by dividing the original alignment score by the maximum possible score.</br>
 **identity count**</br>
 This is the number of exact matches in the alignment found between the two given sequences.</br>
 </br>
